@@ -46,5 +46,7 @@ class Company(Base):
     id = Column(Integer(), primary_key=True)
     name= Column(String())
 
+    freebies = relationship('Freebie', back_populates='dev', cascade='all, delete-orphan')
+
     def __repr__(self):
         return f'<Dev {self.name}>'
