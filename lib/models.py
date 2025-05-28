@@ -59,6 +59,27 @@ class Company(Base):
         return any(f.item_name == item_name for f in self.freebies)
     
     def give_away(self, dev, freebie):
-        
+
+        if freebie in self.freebies:
+            freebie.dev = dev
+            return True
+        return False
+    
+class Freebie(Base):
+    __tablename__ = 'freebies'
+
+    id = Column(Integer(), primary_key=True)
+    item_name = Column(String(), nullable=False)
+    value = Column(Integer(), nullable=False)
+
+    company_id = Column(Integer(), ForeignKey('companies.id'), nullable=False)
+    dev_id = Column(Integer(), ForeignKey('devs.id'), nullable=False)
+
+    company = relationship('Company', back_populates='freebies')
+    dev = relationship('Dev', back_populates='freebies')
+
+    def __repr__(self):
+        return f'<Freebie {self.item_name} worth {self.value}>'
+
     
 
