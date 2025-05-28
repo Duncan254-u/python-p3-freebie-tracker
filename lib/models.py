@@ -48,5 +48,17 @@ class Company(Base):
 
     freebies = relationship('Freebie', back_populates='dev', cascade='all, delete-orphan')
 
+    companies = association_proxy('freebies', 'company')
+    creator = lambda company: Freebie(company=company)
+
+
     def __repr__(self):
         return f'<Dev {self.name}>'
+    
+    def received_one(self,item_name):
+        return any(f.item_name == item_name for f in self.freebies)
+    
+    def give_away(self, dev, freebie):
+        
+    
+
